@@ -6,7 +6,7 @@
    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
    <style>
-
+/* Add Style in Css */
    header{
       background: #293e79;
       color: #98afb6;
@@ -19,7 +19,7 @@
    border-block-end: 10px rgb(234, 184, 192) solid;
 
    }
-
+/*Style content pragraph*/
    div{
       width: 500px;
       height: 100px;
@@ -27,38 +27,32 @@
    border: #b2cec1;
    text-align: center; 
    
-   
    }
    h1{
       color: #293e79;
    
-      
-
    }
    body {
    background-color: #b7cdd5;
 
    }
 
-   
+   /*style fit in footer*/
    footer{
       background-color: rgb(15, 89, 126) ;
       padding: 0;
       border-block-end: 10px rgb(234, 184, 192) solid;
       margin: 0;
       
-
-
-
    }
-
+/* Apply separate fill patterns for each country and add a style to them */
    .subunit.SCT { fill: rgb(159, 83, 131); }
    .subunit.WLS { fill: rgb(124, 69, 110); }
    .subunit.NIR { fill: hsl(271, 9%, 52%); }
    .subunit.ENG { fill: rgb(9, 90, 121); }
    .subunit.IRL { fill: #719da9; }
 
-
+  /* The country labels are styled larger*/
    .subunit-label {
    fill: #e5f2f0d4;
    fill-opacity: .5;
@@ -68,7 +62,7 @@
    }
 
    .subunit text {
-      fill: #1f1d1d;
+      fill: rgb(87, 68, 81);
       fill-opacity: .5;
       font-size: 20px;
       font-weight: 300;
@@ -85,7 +79,7 @@
       font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       pointer-events: none;
    }
-
+/* Style box text in town */
    .d3-tip {
       line-height: 1;
       font-weight: bold;
@@ -113,8 +107,10 @@
 </head> 
 
 <body>
+   <!--start project-->
 <header>THE UNITED KINGDOM</header>
 <h2> <img src="Uk.jpeg" alt="UK"></h2>
+<!--Added Text  and prograph for town UK-->
 <div>   
 <h1>'England'</h1>
 <p>England 'is a country that is part of the United Kingdom.</p>
@@ -131,30 +127,26 @@
    Ireland that is variously described as a country, province or region.</p>
 
 
-   <button id="reloadButton">Reload Page</button>
+
 </div>
 <script src="d3.v3.js" charset="utf-8"></script> 
 <script src="topojson.js"></script>
 <script src="d3-tip.js"></script>
 
 
-
-<svg xmlns="http://www.w3.org/2000/svg">
-  
-</svg>
-
-
-<svg xmlns="http://www.w3.org/2000/svg">
-  
-   
-</svg>
-
+<!--Linl SVS-->
+<svg xmlns="http://www.w3.org/2000/svg"></svg>
+<svg xmlns="http://www.w3.org/2000/svg"></svg>
 
 <script>
 
+   
+
+/*  create the root SVG element*/
 var width = 960,   
    height = 1160;  
 
+/*Creat and shape  the map */
 var projection = d3.geo.albers()
    .center([0, 55.4])
    .rotate([4.4, 0])
@@ -182,6 +174,8 @@ svg.call(tip);
 
 d3.json("uk.json", function(error, uk) {
  
+
+/*Within the uk.json TopoJSON file, the Admin-0 map subunits are represented*/
    svg.selectAll(".subunit")
       .data(topojson.feature(uk, uk.objects.subunits).features)
       .enter().append("path")
@@ -222,6 +216,7 @@ if (parseInt(t_towncount)>500){
 
 var datasource = datasource1.concat(String(parseInt(t_towncount))); 
 
+/*This will draw a small circle for each city*/
 d3.json(datasource, function(error, twn) {
    svg.selectAll("circle")
       .data(twn)
@@ -237,22 +232,9 @@ d3.json(datasource, function(error, twn) {
       .on('mouseout', tip.hide)          
 
       .attr("class","incident")
-
-
-      
-/*
- *    .on("mouseover", function(d){
- *       document.getElementById("town_details").innerHTML = d.Town + ", <br>" + "county : " + d.County + ", population : " + d.Population + "<EOS.";
- *       d3.select(this).attr("class","incident hover");
- *    })
- *    .on("mouseout", function(d){
- *       document.getElementById("town_details").innerHTML = "";
- *       d3.select(this).attr("class","incident");
- *    })
- */
-
       .attr("r", 5);
-
+   
+/* This will draw a small circle for each city*/
       svg.selectAll(".place-label")
          .data(twn)
          .enter().append("text")
@@ -265,21 +247,15 @@ d3.json(datasource, function(error, twn) {
 
 });
 
-/* */ 
-
-
-
-
-   
-        document.getElementById("reloadButton").addEventListener("click", function() {
-            location.reload();
-        });
-   
-
-
+       
+ /*Create onscroll*/
+ window.onscroll =function(){
+    console.log("scroll");
+};
 
 </script>
 <footer> .</footer>
 </body>
 </html>
+
 
