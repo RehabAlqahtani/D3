@@ -1,0 +1,285 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="utf-8"/>
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+   <style>
+
+   header{
+      background: #293e79;
+      color: #98afb6;
+      font-family: 'Courier New', Courier, monospace;
+      text-align: center;
+      padding: 10pt;
+      font-size: 80px;
+      background-color: rgb(9, 85, 123);
+   inline-size: 100%;
+   border-block-end: 10px rgb(234, 184, 192) solid;
+
+   }
+
+   div{
+      width: 500px;
+      height: 100px;
+      margin-top: 100px;
+   border: #b2cec1;
+   text-align: center; 
+   
+   
+   }
+   h1{
+      color: #293e79;
+   
+      
+
+   }
+   body {
+   background-color: #b7cdd5;
+
+   }
+
+   
+   footer{
+      background-color: rgb(15, 89, 126) ;
+      padding: 0;
+      border-block-end: 10px rgb(234, 184, 192) solid;
+      margin: 0;
+      
+
+
+
+   }
+
+   .subunit.SCT { fill: rgb(159, 83, 131); }
+   .subunit.WLS { fill: rgb(124, 69, 110); }
+   .subunit.NIR { fill: hsl(271, 9%, 52%); }
+   .subunit.ENG { fill: rgb(9, 90, 121); }
+   .subunit.IRL { fill: #719da9; }
+
+
+   .subunit-label {
+   fill: #e5f2f0d4;
+   fill-opacity: .5;
+   font-size: 20px;
+   font-weight: 300;
+   text-anchor: middle;
+   }
+
+   .subunit text {
+      fill: #1f1d1d;
+      fill-opacity: .5;
+      font-size: 20px;
+      font-weight: 300;
+      text-anchor: middle;
+   }
+
+   .place,
+   .place-label {
+      fill: #444;
+   }
+
+   text {
+      font-size: 10px;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      pointer-events: none;
+   }
+
+   .d3-tip {
+      line-height: 1;
+      font-weight: bold;
+      padding: 12px;
+      background: rgba(192, 178, 192, 0.8);
+      color: #282424;
+      border-radius: 30px;
+   }
+
+   .hover {
+      fill: yellow;   
+   }
+
+   h2 {
+      top: 40px;
+      font-size: 1em;
+   padding-left: 80px;
+   }
+
+   h4 {
+      top: 300px;
+      font-size: 1em;
+   }
+   </style>
+</head> 
+
+<body>
+<header>THE UNITED KINGDOM</header>
+<h2> <img src="Uk.jpeg" alt="UK"></h2>
+<div>   
+<h1>'England'</h1>
+<p>England 'is a country that is part of the United Kingdom.</p>
+<h1>'Scotland'</h1>
+<p>Scotland is a country that is part of the United Kingdom. It contains nearly one-third of the United Kingdom's land area, 
+   consisting of the northern third of the island of Great Britain .</p>
+ <h1>'Ireland'</h1>
+ <p>Ireland Ulster-Scots: Airlann is an island in the North Atlantic Ocean, in north-western Europe.</p>
+ <h1> 'Wales'</h1>
+ <p>Wales is a country that is part of the United Kingdom.  
+ It is bordered by England to the east, the Irish Sea to the north and west.</p>
+<h1>'Northern Ireland'</h1>
+<p> Northern Ireland is a part of the United Kingdom in the north-east of the island of 
+   Ireland that is variously described as a country, province or region.</p>
+
+
+   <button id="reloadButton">Reload Page</button>
+</div>
+<script src="d3.v3.js" charset="utf-8"></script> 
+<script src="topojson.js"></script>
+<script src="d3-tip.js"></script>
+
+
+
+<svg xmlns="http://www.w3.org/2000/svg">
+  
+</svg>
+
+
+<svg xmlns="http://www.w3.org/2000/svg">
+  
+   
+</svg>
+
+
+<script>
+
+var width = 960,   
+   height = 1160;  
+
+var projection = d3.geo.albers()
+   .center([0, 55.4])
+   .rotate([4.4, 0])
+   .parallels([50, 60])
+   .scale(1200 * 5)
+   .translate([width / 2, height / 2]);
+
+var path = d3.geo.path()
+   .projection(projection);
+
+
+   var svg = d3.select("body").append("svg")
+   .attr("width", width)
+   .attr("height", height);
+
+
+var tip = d3.tip()
+   .attr('class', 'd3-tip')
+   .offset([-10, 0])
+   .html(function(d) {
+      return d.Town + ", " + d.County + "<p><strong>Pop:</strong> <span style='color:red'>" + d.Population + "</span>";
+   });
+
+svg.call(tip); 
+
+d3.json("uk.json", function(error, uk) {
+ 
+   svg.selectAll(".subunit")
+      .data(topojson.feature(uk, uk.objects.subunits).features)
+      .enter().append("path")
+      .attr("class", function(d) { return "subunit " + d.id; })
+      .attr("d", path);
+});
+
+d3.json("uk.json", function(error, uk) {
+ svg.selectAll(".subunit-label")
+ .data(topojson.feature(uk, uk.objects.subunits).features)
+    .enter().append("text")
+      .attr("class", function(d) { return "subunit-label " + d.id; })
+      .attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; })
+      .attr("dy", ".35em")
+      .text(function(d) { return d.properties.name; });
+ });
+
+
+
+var datasource1="http://34.38.72.236/Circles/Towns/";
+/* var towncount = 25 ; */
+var t_towncount = "number "
+
+   while (isNaN(t_towncount)){
+      t_towncount = window.prompt("Please enter number of towns",t_towncount);
+   }
+
+
+if (isNaN(t_towncount)){
+	t_towncount = "50"
+};
+
+if (parseInt(t_towncount)>500){
+	t_towncount = "500"
+};
+
+
+
+var datasource = datasource1.concat(String(parseInt(t_towncount))); 
+
+d3.json(datasource, function(error, twn) {
+   svg.selectAll("circle")
+      .data(twn)
+      .enter()
+      .append("circle")
+      .attr("cx", function(d) {
+         return projection([d.lng, d.lat])[0];
+      })
+      .attr("cy", function(d) {
+         return projection([d.lng, d.lat])[1];
+      })
+      .on('mouseover', tip.show)          
+      .on('mouseout', tip.hide)          
+
+      .attr("class","incident")
+
+
+      
+/*
+ *    .on("mouseover", function(d){
+ *       document.getElementById("town_details").innerHTML = d.Town + ", <br>" + "county : " + d.County + ", population : " + d.Population + "<EOS.";
+ *       d3.select(this).attr("class","incident hover");
+ *    })
+ *    .on("mouseout", function(d){
+ *       document.getElementById("town_details").innerHTML = "";
+ *       d3.select(this).attr("class","incident");
+ *    })
+ */
+
+      .attr("r", 5);
+
+      svg.selectAll(".place-label")
+         .data(twn)
+         .enter().append("text")
+         .attr("class", "place-label")
+         .attr("transform", function(d) { return "translate(" + projection([d.lng, d.lat]) + ")"; })
+         .attr("x", function(d) { return d.lng  > -1 ? 6 : -6; })
+         .attr("dy", ".35em")
+         .style("text-anchor", function(d) { return d.lng > -1 ? "start" : "end"; })
+         .text(function(d) { return d.Town; }); 
+
+});
+
+/* */ 
+
+
+
+
+   
+        document.getElementById("reloadButton").addEventListener("click", function() {
+            location.reload();
+        });
+   
+
+
+
+</script>
+<footer> .</footer>
+</body>
+</html>
+
